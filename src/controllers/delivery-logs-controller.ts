@@ -17,15 +17,15 @@ class DeliveryLogsController {
     })
 
     if (!delivery) {
-      throw new AppError("delivery not found", 404)
+      throw new AppError("Delivery not found.", 404)
     }
 
     if (delivery.status === "delivered") {
-      throw new AppError("this order has already been delivered")
+      throw new AppError("This order has already been delivered.")
     }
 
     if (delivery.status === "processing") {
-      throw new AppError("change status to shipped", 404)
+      throw new AppError("Change status to shipped.", 404)
     }
 
     await prisma.deliveryLog.create({
@@ -53,11 +53,15 @@ class DeliveryLogsController {
       },
     })
 
+    if (!delivery) {
+      return response.status(404).json({ message: "Delivery not found."})
+    }
+
     if (
       request.user?.role === "customer" &&
       request.user.id !== delivery?.userId
     ) {
-      throw new AppError("the user can only view their own deliveries", 401)
+      throw new AppError("The user can only view their own deliveries.", 401)
     }
 
     return response.json(delivery)
