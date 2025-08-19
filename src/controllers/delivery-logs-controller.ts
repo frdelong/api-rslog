@@ -17,7 +17,7 @@ class DeliveryLogsController {
     })
 
     if (!delivery) {
-      throw new AppError("Delivery not found.", 404)
+      throw new AppError("Delivery not found", 404)
     }
 
     if (delivery.status === "delivered") {
